@@ -1,6 +1,10 @@
 // TODO: Include packages needed for this application
 // npm i inquirer@8.2.4
 // npm install prompt-sync
+const fs = require('fs');
+const inquirer = require('inquirer');
+const generateMarkdown = require('./utils/generateMarkdown');
+
 const licenses = ['None', 'MIT', 'BSD', 'GPL', 'Apache'];
 
 // TODO: Create an array of questions for user input
@@ -54,10 +58,19 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    const filename = './dist/README.md';
+
+    fs.writeFile(filename, data, function (err) {
+        err ? console.log(err) : console.log(filename + ' created');
+    });
+}
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions)
+    .then (answers => writeToFile(generateMarkdown(answers)))
+}
 
 // Function call to initialize app
 init();
